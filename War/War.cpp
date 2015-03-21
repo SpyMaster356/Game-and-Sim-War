@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include <iostream>
 #include <vector>
@@ -41,35 +41,35 @@ class Card {
     string suitName() {
       switch (_suit) {
         case HEART:
-          return "Hearts";
+          return "H";
         case DIAMOND:
-          return "Hearts";
+          return "D";
         case SPADE:
-          return "Spades";
+          return "S";
         case CLUB:
-          return "Clubs"; 
+          return "C"; 
         default:
-          return "Unknown";
+          return "U";
       }
     }
 
     string valueName() {
       switch (_value) {
         case ACE:
-          return "Ace";
+          return "A";
         case KING:
-          return "King";
+          return "K";
         case QUEEN:
-          return "Queen";
+          return "Q";
         case JACK:
-          return "Jack";
+          return "J";
         default:
           return to_string(_value);
       }
     }
 
     string toString() {
-      return valueName() + " of " + suitName();
+      return "[" + valueName() + " " + suitName() + "]";
     }
 };
 
