@@ -116,6 +116,19 @@ class Deck {
       cards.clear();
     }
 
+    string print() {
+      string line = "";
+      if (cards.size() > 0) {
+        line += "[{O}]";
+      }
+
+      for (int count = cards.size() - 1; count > 0; count--){
+        line += "]";
+      }
+
+      return line;
+    }
+
     static void buildFullDeck(Deck &fullDeck) {
       buildSuit(fullDeck, HEART);
       buildSuit(fullDeck, SPADE);
@@ -239,23 +252,11 @@ class Game {
       bool winner = false;
 
       cout << "Your reserves: " << playerOne.deck.size() << endl;
-      if (playerOne.deck.size() > 0) {
-        cout << "[:-:";
-      }
-
-      for (int count = playerOne.deck.size(); count > 0; count--){
-        cout << "]";
-      }
+      cout << playerOne.deck.print();
       cout << endl;
       
       cout << "CPU reserves:  " << playerTwo.deck.size() << endl;
-      if (playerTwo.deck.size() > 0) {
-        cout << "[:-:";
-      }
-
-      for (int count = playerTwo.deck.size(); count > 0; count--){
-        cout << "]";
-      }
+      cout << playerTwo.deck.print();
       cout << endl;
 
       while (!winner) {
@@ -305,14 +306,7 @@ class Game {
           pile.addCard(deck.drawCard());
         }
       }
-
-      if (pile.size() > 0) {
-        cout << "[:-:";
-      }
-
-      for (int count = pile.size(); count > 0; count--){
-        cout << "]";
-      }
+      cout << pile.print();
     }
 
     void turnWon(Player &winner, Player &loser) {
