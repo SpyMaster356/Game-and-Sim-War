@@ -11,6 +11,7 @@ using namespace std;
 const int MAX_CARD_VALUE = 14; //Aces high
 const int MIN_CARD_VALUE = 2;
 const int FACE_DOWN_CARDS = 3;
+const int NUM_OF_DECKS = 1;
 
 enum Suit {
   HEART, CLUB, DIAMOND, SPADE
@@ -177,7 +178,10 @@ class Game {
       playerOne.deck.clear();
       playerTwo.deck.clear();
 
-      Deck::buildFullDeck(fullDeck);
+      for (int count = NUM_OF_DECKS; count > 0; count--){
+        Deck::buildFullDeck(fullDeck);
+      }
+
       fullDeck.shuffle();
       dealCards(fullDeck);
     }
