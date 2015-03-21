@@ -274,8 +274,8 @@ class Game {
       while (!winner) {
         cout << endl;
 
-        flipCards(playerOne.pile, playerOne.deck);
-        flipCards(playerTwo.pile, playerTwo.deck);
+        flipCards(playerOne);
+        flipCards(playerTwo);
         
         Printer::printTroops("Your", playerOne.pile);
         Printer::printTroops(" CPU", playerTwo.pile);
@@ -312,10 +312,10 @@ class Game {
       cout << endl;
     }
 
-    void flipCards(Deck &pile, Deck &deck) {
+    void flipCards(Player &player) {
       for (int count = CARDS_PER_TURN; count > 0; count--){
-        if (deck.size() > 0) {
-          pile.addCard(deck.drawCard());
+        if (player.deck.size() > 0) {
+          player.pile.addCard(player.deck.drawCard());
         }
       }
     }
