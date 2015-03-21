@@ -220,14 +220,22 @@ class Game {
       bool winner = false;
 
       cout << "Your reserves: " << playerOneDeck.size() << endl;
+      if (playerOneDeck.size() > 0) {
+        cout << "[";
+      }
+
       for (int count = playerOneDeck.size(); count > 0; count--){
-        cout << "[]";
+        cout << "]";
       }
       cout << endl;
       
       cout << "CPU reserves:  " << playerTwoDeck.size() << endl;
+      if (playerTwoDeck.size() > 0) {
+        cout << "[";
+      }
+
       for (int count = playerTwoDeck.size(); count > 0; count--){
-        cout << "[]";
+        cout << "]";
       }
       cout << endl;
 
@@ -259,23 +267,28 @@ class Game {
           playerTwoWinsTurn();
         }
         else {
-          cout << "tie!";
+          cout << "tie!" << endl;
         }
+
+        system("pause");
       }
 
       cout << endl;
     }
 
     void flipCards(Deck &pile, Deck &deck) {
-      for (int count = pile.size(); count > 0; count--){
-        cout << "[]";
-      }
-
       for (int count = FACE_DOWN_CARDS; count > 0; count--){
         if (deck.size() > 0) {
           pile.addCard(deck.drawCard());
-          cout << "[]";
         }
+      }
+
+      if (pile.size() > 0) {
+        cout << "[";
+      }
+
+      for (int count = pile.size(); count > 0; count--){
+        cout << "]";
       }
     }
 
