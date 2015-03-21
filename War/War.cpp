@@ -10,7 +10,7 @@ using namespace std;
 
 const int MAX_CARD_VALUE = 14; //Aces high
 const int MIN_CARD_VALUE = 2;
-const int FACE_DOWN_CARDS = 3;
+const int CARDS_PER_TURN = 3;
 const int NUM_OF_DECKS = 1;
 const bool AUTOMATE_WAR = false;
 
@@ -137,6 +137,9 @@ struct Player {
 };
 
 class Game {
+  int roundsWon = 0;
+  int roundsLost = 0;
+
   public:
     void start() {
       gameRunning = true;
@@ -144,6 +147,11 @@ class Game {
       while (gameRunning) {
         newRound();
         playRound();
+
+        cout << endl;
+        cout << "Score:" << endl;
+        cout << "Won:" << roundsWon << endl;
+        cout << "Lost:" << roundsLost << endl;
 
         bool validInput = false;
         string input;
@@ -211,9 +219,11 @@ class Game {
       }
 
       if (playerOne.deck.size() == 0) {
+        roundsLost++;
         cout << "You have lost the war." << endl;
       }
       else if (playerTwo.deck.size() == 0) {
+        roundsWon++;
         cout << "You have won the war!" << endl;
       }
 
@@ -222,6 +232,8 @@ class Game {
 
     void turn(int &turnCount) {
       turnCount++;
+      system("cls");
+
       cout << "Turn " << turnCount << endl;
 
       bool winner = false;
@@ -288,7 +300,7 @@ class Game {
     }
 
     void flipCards(Deck &pile, Deck &deck) {
-      for (int count = FACE_DOWN_CARDS; count > 0; count--){
+      for (int count = CARDS_PER_TURN; count > 0; count--){
         if (deck.size() > 0) {
           pile.addCard(deck.drawCard());
         }
