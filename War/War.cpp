@@ -149,6 +149,26 @@ struct Player {
   Deck deck;
 };
 
+class Printer {
+  public:
+    static void printScore(int &won, int &lost) {
+      cout << endl;
+      cout << "Score:" << endl;
+      cout << "Won:" << won << endl;
+      cout << "Lost:" << lost << endl;
+    }
+
+    static void printReserves(string playerName, Deck &reserves) {
+      cout << playerName << " reserves: " << reserves.size() << endl;
+      cout << reserves.print();
+      cout << endl;
+    }
+
+    static void printTroops(string playerName, Deck &troops) {
+      cout << playerName << " troops: " << troops.print() << endl;
+    }
+};
+
 class Game {
   int roundsWon = 0;
   int roundsLost = 0;
@@ -161,10 +181,7 @@ class Game {
         newRound();
         playRound();
 
-        cout << endl;
-        cout << "Score:" << endl;
-        cout << "Won:" << roundsWon << endl;
-        cout << "Lost:" << roundsLost << endl;
+        Printer::printScore(roundsWon, roundsLost);
 
         bool validInput = false;
         string input;
@@ -251,29 +268,24 @@ class Game {
 
       bool winner = false;
 
-      cout << "Your reserves: " << playerOne.deck.size() << endl;
-      cout << playerOne.deck.print();
-      cout << endl;
-      
-      cout << "CPU reserves:  " << playerTwo.deck.size() << endl;
-      cout << playerTwo.deck.print();
-      cout << endl;
+      Printer::printReserves("Your", playerOne.deck);
+      Printer::printReserves("CPU", playerTwo.deck);
 
       while (!winner) {
         cout << endl;
 
-        cout << "Your troops: ";
         flipCards(playerOne.pile, playerOne.deck);
-        cout << endl;
-
-        cout << "CPU troops:  ";
         flipCards(playerTwo.pile, playerTwo.deck);
+        
+        Printer::printTroops("Your", playerOne.pile);
+        Printer::printTroops(" CPU", playerTwo.pile);
         cout << endl;
 
         Card playerOneCard = playerOne.pile.drawCard();
         Card playerTwoCard = playerTwo.pile.drawCard();
 
         cout << playerOneCard.toString() << " vs. " << playerTwoCard.toString() << endl;
+        cout << endl;
 
         playerOne.pile.addCard(playerOneCard);
         playerTwo.pile.addCard(playerTwoCard);
@@ -306,7 +318,6 @@ class Game {
           pile.addCard(deck.drawCard());
         }
       }
-      cout << pile.print();
     }
 
     void turnWon(Player &winner, Player &loser) {
