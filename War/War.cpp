@@ -82,13 +82,30 @@ class Deck {
 
   public:
     Card drawCard() {
+      return drawCard(true);
+    }
+
+    Card drawCard(bool removeFromDeck) {
       Card topCard = cards.back();
-      cards.pop_back();
+      
+      if (removeFromDeck) {
+        cards.pop_back();
+      }
+      
       return topCard;
     }
 
     void addCard(Card card) {
-      cards.insert(cards.begin(), card);
+      addCard(card, true);
+    }
+
+    void addCard(Card card, bool toBottom) {
+      if (toBottom) {
+        cards.insert(cards.begin(), card);
+      }
+      else {
+        cards.insert(cards.end(), card);
+      }
     }
 
     void shuffle() {
@@ -281,14 +298,11 @@ class Game {
         Printer::printTroops(" CPU", playerTwo.pile);
         cout << endl;
 
-        Card playerOneCard = playerOne.pile.drawCard();
-        Card playerTwoCard = playerTwo.pile.drawCard();
+        Card playerOneCard = playerOne.pile.drawCard(false);
+        Card playerTwoCard = playerTwo.pile.drawCard(false);
 
         cout << playerOneCard.toString() << " vs. " << playerTwoCard.toString() << endl;
         cout << endl;
-
-        playerOne.pile.addCard(playerOneCard);
-        playerTwo.pile.addCard(playerTwoCard);
 
         if (playerOneCard.value() > playerTwoCard.value()) {
           winner = true;
@@ -315,7 +329,7 @@ class Game {
     void flipCards(Player &player) {
       for (int count = CARDS_PER_TURN; count > 0; count--){
         if (player.deck.size() > 0) {
-          player.pile.addCard(player.deck.drawCard());
+          player.pile.addCard(player.deck.drawCard(), false);
         }
       }
     }
