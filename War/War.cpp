@@ -262,11 +262,13 @@ class Game {
 
         if (playerOneCard.value() > playerTwoCard.value()) {
           winner = true;
-          playerOneWinsTurn();
+          cout << "You won the battle" << endl;
+          turnWon(playerOne, playerTwo);
         }
         else if (playerTwoCard.value() > playerOneCard.value()) {
           winner = true;
-          playerTwoWinsTurn();
+          cout << "You lost the battle" << endl;
+          turnWon(playerTwo, playerOne);
         }
         else {
           cout << "tie!" << endl;
@@ -294,33 +296,16 @@ class Game {
       }
     }
 
-    void playerOneWinsTurn() {
-      cout << "You won!" << endl;
-
-      for (int count = playerTwo.pile.size(); count > 0; count--){
-        Card wonCard = playerTwo.pile.drawCard();
-        cout << "  " << wonCard.toString() << endl;
-        playerOne.deck.addCard(wonCard);
+    void turnWon(Player &winner, Player &loser) {
+      for (int count = loser.pile.size(); count > 0; count--){
+        Card card = loser.pile.drawCard();
+        cout << "  " << card.toString() << endl;
+        winner.deck.addCard(card);
       }
 
-      for (int count = playerOne.pile.size(); count > 0; count--){
-        Card card = playerOne.pile.drawCard();
-        playerOne.deck.addCard(card);
-      }
-    }
-
-    void playerTwoWinsTurn() {
-      cout << "You lost!" << endl;
-
-      for (int count = playerOne.pile.size(); count > 0; count--){
-        Card lostCard = playerOne.pile.drawCard();
-        cout << "  " << lostCard.toString() << endl;
-        playerTwo.deck.addCard(lostCard);
-      }
-
-      for (int count = playerTwo.pile.size(); count > 0; count--){
-        Card card = playerTwo.pile.drawCard();
-        playerTwo.deck.addCard(card);
+      for (int count = winner.pile.size(); count > 0; count--){
+        Card card = winner.pile.drawCard();
+        winner.deck.addCard(card);
       }
     }
 };
