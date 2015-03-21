@@ -129,6 +129,11 @@ class Deck {
     }
 };
 
+struct Player {
+  Deck pile;
+  Deck deck;
+};
+
 class Game {
   public:
     void start() {
@@ -163,17 +168,14 @@ class Game {
 
   private:
     bool gameRunning;
-    Deck playerOneDeck;
-    Deck playerTwoDeck;
-
-    Deck playerOnePile;
-    Deck playerTwoPile;
+    Player playerOne;
+    Player playerTwo;
 
     void newRound() {
       Deck fullDeck;
       //Burn the decks!! BURN THEM!
-      playerOneDeck.clear();
-      playerTwoDeck.clear();
+      playerOne.deck.clear();
+      playerTwo.deck.clear();
 
       Deck::buildFullDeck(fullDeck);
       fullDeck.shuffle();
@@ -186,11 +188,11 @@ class Game {
 
       while (fullDeck.size() > 0) {
         if (nextDeck == 1) {
-          playerOneDeck.addCard(fullDeck.drawCard());
+          playerOne.deck.addCard(fullDeck.drawCard());
           nextDeck = 2;
         }
         else {
-          playerTwoDeck.addCard(fullDeck.drawCard());
+          playerTwo.deck.addCard(fullDeck.drawCard());
           nextDeck = 1;
         }
       }
@@ -199,14 +201,14 @@ class Game {
     void playRound() {
       cout << endl;
       int turnCount = 0;
-      while (playerOneDeck.size() > 0 && playerTwoDeck.size() > 0) {
+      while (playerOne.deck.size() > 0 && playerTwo.deck.size() > 0) {
         turn(turnCount);
       }
 
-      if (playerOneDeck.size() == 0) {
+      if (playerOne.deck.size() == 0) {
         cout << "You have lost the war." << endl;
       }
-      else if (playerTwoDeck.size() == 0) {
+      else if (playerTwo.deck.size() == 0) {
         cout << "You have won the war!" << endl;
       }
 
@@ -219,22 +221,22 @@ class Game {
 
       bool winner = false;
 
-      cout << "Your reserves: " << playerOneDeck.size() << endl;
-      if (playerOneDeck.size() > 0) {
-        cout << "[";
+      cout << "Your reserves: " << playerOne.deck.size() << endl;
+      if (playerOne.deck.size() > 0) {
+        cout << "[:-:";
       }
 
-      for (int count = playerOneDeck.size(); count > 0; count--){
+      for (int count = playerOne.deck.size(); count > 0; count--){
         cout << "]";
       }
       cout << endl;
       
-      cout << "CPU reserves:  " << playerTwoDeck.size() << endl;
-      if (playerTwoDeck.size() > 0) {
-        cout << "[";
+      cout << "CPU reserves:  " << playerTwo.deck.size() << endl;
+      if (playerTwo.deck.size() > 0) {
+        cout << "[:-:";
       }
 
-      for (int count = playerTwoDeck.size(); count > 0; count--){
+      for (int count = playerTwo.deck.size(); count > 0; count--){
         cout << "]";
       }
       cout << endl;
@@ -243,20 +245,20 @@ class Game {
         cout << endl;
 
         cout << "Your troops: ";
-        flipCards(playerOnePile, playerOneDeck);
+        flipCards(playerOne.pile, playerOne.deck);
         cout << endl;
 
         cout << "CPU troops:  ";
-        flipCards(playerTwoPile, playerTwoDeck);
+        flipCards(playerTwo.pile, playerTwo.deck);
         cout << endl;
 
-        Card playerOneCard = playerOnePile.drawCard();
-        Card playerTwoCard = playerTwoPile.drawCard();
+        Card playerOneCard = playerOne.pile.drawCard();
+        Card playerTwoCard = playerTwo.pile.drawCard();
 
         cout << playerOneCard.toString() << " vs. " << playerTwoCard.toString() << endl;
 
-        playerOnePile.addCard(playerOneCard);
-        playerTwoPile.addCard(playerTwoCard);
+        playerOne.pile.addCard(playerOneCard);
+        playerTwo.pile.addCard(playerTwoCard);
 
         if (playerOneCard.value() > playerTwoCard.value()) {
           winner = true;
@@ -284,7 +286,7 @@ class Game {
       }
 
       if (pile.size() > 0) {
-        cout << "[";
+        cout << "[:-:";
       }
 
       for (int count = pile.size(); count > 0; count--){
@@ -295,30 +297,30 @@ class Game {
     void playerOneWinsTurn() {
       cout << "You won!" << endl;
 
-      for (int count = playerTwoPile.size(); count > 0; count--){
-        Card wonCard = playerTwoPile.drawCard();
+      for (int count = playerTwo.pile.size(); count > 0; count--){
+        Card wonCard = playerTwo.pile.drawCard();
         cout << "  " << wonCard.toString() << endl;
-        playerOneDeck.addCard(wonCard);
+        playerOne.deck.addCard(wonCard);
       }
 
-      for (int count = playerOnePile.size(); count > 0; count--){
-        Card card = playerOnePile.drawCard();
-        playerOneDeck.addCard(card);
+      for (int count = playerOne.pile.size(); count > 0; count--){
+        Card card = playerOne.pile.drawCard();
+        playerOne.deck.addCard(card);
       }
     }
 
     void playerTwoWinsTurn() {
       cout << "You lost!" << endl;
 
-      for (int count = playerOnePile.size(); count > 0; count--){
-        Card lostCard = playerOnePile.drawCard();
+      for (int count = playerOne.pile.size(); count > 0; count--){
+        Card lostCard = playerOne.pile.drawCard();
         cout << "  " << lostCard.toString() << endl;
-        playerTwoDeck.addCard(lostCard);
+        playerTwo.deck.addCard(lostCard);
       }
 
-      for (int count = playerTwoPile.size(); count > 0; count--){
-        Card card = playerTwoPile.drawCard();
-        playerTwoDeck.addCard(card);
+      for (int count = playerTwo.pile.size(); count > 0; count--){
+        Card card = playerTwo.pile.drawCard();
+        playerTwo.deck.addCard(card);
       }
     }
 };
