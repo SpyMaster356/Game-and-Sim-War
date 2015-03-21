@@ -12,6 +12,7 @@ const int MAX_CARD_VALUE = 14; //Aces high
 const int MIN_CARD_VALUE = 2;
 const int FACE_DOWN_CARDS = 3;
 const int NUM_OF_DECKS = 1;
+const bool AUTOMATE_WAR = false;
 
 enum Suit {
   HEART, CLUB, DIAMOND, SPADE
@@ -278,7 +279,9 @@ class Game {
           cout << "tie!" << endl;
         }
 
-        system("pause");
+        if (!AUTOMATE_WAR) {
+          system("pause");
+        }
       }
 
       cout << endl;
