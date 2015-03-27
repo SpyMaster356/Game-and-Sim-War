@@ -5,8 +5,8 @@
 
 void Player::flipCards() {
   for (int count = Game::CARDS_PER_TURN; count > 0; count--){
-    if (deck.size() > 0) {
-      pile.addCard(deck.drawCard(), false);
+    if (reserves.size() > 0) {
+      pile.addCard(reserves.drawCard(), false);
     }
   }
 }

@@ -27,8 +27,8 @@ void Game::start() {
 void Game::newRound() {
   Deck fullDeck;
   //Burn the decks!! BURN THEM!
-  playerOne.deck.clear();
-  playerTwo.deck.clear();
+  playerOne.reserves.clear();
+  playerTwo.reserves.clear();
 
   for (int count = Game::NUM_OF_DECKS; count > 0; count--){
     Deck::buildFullDeck(fullDeck);
@@ -43,11 +43,11 @@ void Game::dealCards(Deck &fullDeck) {
 
   while (fullDeck.size() > 0) {
     if (nextDeck == 1) {
-      playerOne.deck.addCard(fullDeck.drawCard());
+      playerOne.reserves.addCard(fullDeck.drawCard());
       nextDeck = 2;
     }
     else {
-      playerTwo.deck.addCard(fullDeck.drawCard());
+      playerTwo.reserves.addCard(fullDeck.drawCard());
       nextDeck = 1;
     }
   }
@@ -57,15 +57,15 @@ void Game::playRound() {
   Display::printLine();
 
   int turnCount = 0;
-  while (playerOne.deck.size() > 0 && playerTwo.deck.size() > 0) {
+  while (playerOne.reserves.size() > 0 && playerTwo.reserves.size() > 0) {
     nextTurn(turnCount);
   }
 
-  if (playerOne.deck.size() == 0) {
+  if (playerOne.reserves.size() == 0) {
     roundsLost++;
     Display::playerLostWar();
   }
-  else if (playerTwo.deck.size() == 0) {
+  else if (playerTwo.reserves.size() == 0) {
     roundsWon++;
     Display::playerWonWar();
   }
@@ -77,8 +77,8 @@ void Game::nextTurn(int &turnCount) {
 
   Display::clear();
   Display::printLine("Turn " + std::to_string(turnCount));
-  Display::printReserves("Your", playerOne.deck);
-  Display::printReserves("CPU", playerTwo.deck);
+  Display::printReserves("Your", playerOne.reserves);
+  Display::printReserves("CPU", playerTwo.reserves);
   Display::anyKeyToContinue();
 
   do {
@@ -142,11 +142,11 @@ void Game::turnComplete(Outcome outcome) {
   for (int count = loser.pile.size(); count > 0; count--){
     Card card = loser.pile.drawCard();
     Display::printLine("  " + card.toString());
-    winner.deck.addCard(card);
+    winner.reserves.addCard(card);
   }
 
   for (int count = winner.pile.size(); count > 0; count--){
     Card card = winner.pile.drawCard();
-    winner.deck.addCard(card);
+    winner.reserves.addCard(card);
   }
 }

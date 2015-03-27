@@ -5,8 +5,8 @@
 
 class Player {
 public:
+  Deck reserves;
   Deck pile;
-  Deck deck;
 
   void flipCards();
 };
