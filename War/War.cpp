@@ -9,35 +9,13 @@
 #include "Suit.h"
 #include "Deck.h"
 #include "Player.h"
+#include "Printer.h"
 
 using namespace std;
 
 const int CARDS_PER_TURN = 3;
 const int NUM_OF_DECKS = 1;
 const bool AUTOMATE_WAR = true;
-
-
-void printCard(Card);
-
-class Printer {
-  public:
-    static void printScore(int &won, int &lost) {
-      cout << endl;
-      cout << "Score:" << endl;
-      cout << "Won:" << won << endl;
-      cout << "Lost:" << lost << endl;
-    }
-
-    static void printReserves(string playerName, Deck &reserves) {
-      cout << playerName << " reserves: " << reserves.size() << endl;
-      cout << reserves.print();
-      cout << endl;
-    }
-
-    static void printTroops(string playerName, Deck &troops) {
-      cout << playerName << " troops: " << troops.print() << endl;
-    }
-};
 
 class Game {
   int roundsWon = 0;
