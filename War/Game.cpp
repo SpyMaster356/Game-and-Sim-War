@@ -76,7 +76,9 @@ void Game::nextTurn(int &turnCount) {
   Outcome battleOutcome;
 
   Display::clear();
-  Display::turnStart(turnCount, playerOne, playerTwo);
+  Display::printLine("Turn " + std::to_string(turnCount));
+  Display::printReserves("Your", playerOne.deck);
+  Display::printReserves("CPU", playerTwo.deck);
   Display::anyKeyToContinue();
 
   do {
@@ -87,6 +89,7 @@ void Game::nextTurn(int &turnCount) {
     if (battleOutcome == Outcome::TIE) {
       Display::printLine("Tie!");
     }
+
   } while (battleOutcome == Outcome::TIE);
 
   turnComplete(battleOutcome);
