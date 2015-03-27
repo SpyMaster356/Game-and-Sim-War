@@ -103,11 +103,11 @@ Outcome Game::performBattle() {
   playerOne.flipCards();
   playerTwo.flipCards();
 
-  Card playerOneCard = playerOne.pile.drawCard(false);
-  Card playerTwoCard = playerTwo.pile.drawCard(false);
+  Card playerOneCard = playerOne.troops.drawCard(false);
+  Card playerTwoCard = playerTwo.troops.drawCard(false);
 
-  Display::printTroops("Your", playerOne.pile);
-  Display::printTroops(" CPU", playerTwo.pile);
+  Display::printTroops("Your", playerOne.troops);
+  Display::printTroops(" CPU", playerTwo.troops);
   Display::printLine();
 
   Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
@@ -139,14 +139,14 @@ void Game::turnComplete(Outcome outcome) {
     loser = playerOne;
   }
 
-  for (int count = loser.pile.size(); count > 0; count--){
-    Card card = loser.pile.drawCard();
+  for (int count = loser.troops.size(); count > 0; count--){
+    Card card = loser.troops.drawCard();
     Display::printLine("  " + card.toString());
     winner.reserves.addCard(card);
   }
 
-  for (int count = winner.pile.size(); count > 0; count--){
-    Card card = winner.pile.drawCard();
+  for (int count = winner.troops.size(); count > 0; count--){
+    Card card = winner.troops.drawCard();
     winner.reserves.addCard(card);
   }
 }

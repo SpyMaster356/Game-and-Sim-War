@@ -6,7 +6,7 @@
 class Player {
 public:
   Deck reserves;
-  Deck pile;
+  Deck troops;
 
   void flipCards();
 };
