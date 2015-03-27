@@ -8,7 +8,7 @@ public:
   Deck reserves;
   Deck troops;
 
-  void flipCards();
+  void readyTroops();
 };
 
 #endif

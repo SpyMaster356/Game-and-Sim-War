@@ -100,8 +100,8 @@ void Game::nextTurn(int &turnCount) {
 Outcome Game::performBattle() {
   Display::printLine();
 
-  playerOne.flipCards();
-  playerTwo.flipCards();
+  playerOne.readyTroops();
+  playerTwo.readyTroops();
 
   Card playerOneCard = playerOne.troops.drawCard(false);
   Card playerTwoCard = playerTwo.troops.drawCard(false);
