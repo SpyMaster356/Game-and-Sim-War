@@ -1,8 +1,6 @@
 #ifndef __CARD_H__
 #define __CARD_H__
 
-#include "stdafx.h"
-
 #include <string>
 
 #include "Suit.h"

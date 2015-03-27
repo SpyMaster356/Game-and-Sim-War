@@ -1,8 +1,6 @@
 #ifndef __DECK_H__
 #define __DECK_H__
 
-#include "stdafx.h"
-
 #include <vector>
 #include <string>
 
