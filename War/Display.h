@@ -13,6 +13,11 @@ public:
   static bool playAgainPrompt();
   static void printLine();
   static void printLine(std::string string);
+  static void playerWonWar();
+  static void playerLostWar();
+
+private:
+  static void warEnd(std::string message);
 };
 
 #endif

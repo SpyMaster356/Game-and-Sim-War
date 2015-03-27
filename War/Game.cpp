@@ -62,14 +62,12 @@ void Game::playRound() {
 
   if (playerOne.deck.size() == 0) {
     roundsLost++;
-    Display::printLine("You have lost the war.");
+    Display::playerLostWar();
   }
   else if (playerTwo.deck.size() == 0) {
     roundsWon++;
-    Display::printLine("You have won the war!");
+    Display::playerWonWar();
   }
-
-  Display::printLine(" === GAME OVER === ");
 }
 
 void Game::turn(int &turnCount) {

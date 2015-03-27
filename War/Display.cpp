@@ -57,3 +57,16 @@ void Display::printLine() {
 void Display::printLine(std::string line) {
   std::cout << line << std::endl;
 }
+
+void Display::playerWonWar() {
+  Display::warEnd("You won the war");
+}
+
+void Display::playerLostWar() {
+  Display::warEnd("You lost the war");
+}
+
+void Display::warEnd(std::string message) {
+  Display::printLine(message);
+  Display::printLine("== GAME OVER ==");
+}
