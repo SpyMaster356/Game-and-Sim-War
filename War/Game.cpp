@@ -72,7 +72,7 @@ void Game::playRound() {
 
 void Game::turn(int &turnCount) {
   turnCount++;
-  system("cls");
+  Display::clear();
 
   Display::printLine("Turn " + turnCount);
 

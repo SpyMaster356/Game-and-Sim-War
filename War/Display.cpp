@@ -70,3 +70,7 @@ void Display::warEnd(std::string message) {
   Display::printLine(message);
   Display::printLine("== GAME OVER ==");
 }
+
+void Display::clear() {
+  system("cls");
+}

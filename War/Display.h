@@ -15,6 +15,7 @@ public:
   static void printLine(std::string string);
   static void playerWonWar();
   static void playerLostWar();
+  static void clear();
 
 private:
   static void warEnd(std::string message);
