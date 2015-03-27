@@ -22,3 +22,29 @@ void Printer::printReserves(std::string playerName, Deck &reserves) {
 void Printer::printTroops(std::string playerName, Deck &troops) {
   std::cout << playerName << " troops: " << troops.print() << std::endl;
 }
+
+bool Printer::playAgainPrompt() {
+  bool validInput = false;
+  bool returnValue;
+  std::string input;
+
+  while (!validInput) {
+    std::cout << std::endl;
+    std::cout << "Play again? (y/n)" << std::endl;
+    std::cin >> input;
+
+    if (input == "y") {
+      returnValue = true;
+      validInput = true;
+    }
+    else if (input == "n") {
+      returnValue = false;
+      validInput = true;
+    }
+    else {
+      std::cout << "Please enter 'y' or 'n'" << std::endl;
+    }
+  }
+
+  return returnValue;
+}

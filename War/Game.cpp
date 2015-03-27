@@ -16,26 +16,10 @@ void Game::start() {
     playRound();
 
     Printer::printScore(roundsWon, roundsLost);
-
-    bool validInput = false;
-    std::string input;
-
-    while (!validInput) {
-      std::cout << std::endl;
-      std::cout << "Play again? (y/n)" << std::endl;
-      std::cin >> input;
-
-      if (input == "y") {
-        validInput = true;
-      }
-      else if (input == "n") {
-        validInput = true;
-        gameRunning = false;
-      }
-      else {
-        validInput = false;
-        std::cout << "Please enter 'y' or 'n'" << std::endl;
-      }
+    bool playAgain = Printer::playAgainPrompt();
+    
+    if (!playAgain) {
+      gameRunning = false;
     }
   }
 }
