@@ -11,6 +11,8 @@ public:
   static void printReserves(std::string playerName, Deck &reserves);
   static void printTroops(std::string playerName, Deck &troops);
   static bool playAgainPrompt();
+  static void printLine();
+  static void printLine(std::string string);
 };
 
 #endif

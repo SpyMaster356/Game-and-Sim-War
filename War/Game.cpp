@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #include <string>
-#include <iostream>
 
 #include "Player.h"
 #include "Deck.h"
@@ -54,7 +53,8 @@ void Game::dealCards(Deck &fullDeck) {
 }
 
 void Game::playRound() {
-  std::cout << std::endl;
+  Printer::printLine();
+
   int turnCount = 0;
   while (playerOne.deck.size() > 0 && playerTwo.deck.size() > 0) {
     turn(turnCount);
@@ -62,21 +62,21 @@ void Game::playRound() {
 
   if (playerOne.deck.size() == 0) {
     roundsLost++;
-    std::cout << "You have lost the war." << std::endl;
+    Printer::printLine("You have lost the war.");
   }
   else if (playerTwo.deck.size() == 0) {
     roundsWon++;
-    std::cout << "You have won the war!" << std::endl;
+    Printer::printLine("You have won the war!");
   }
 
-  std::cout << " === GAME OVER === " << std::endl;
+  Printer::printLine(" === GAME OVER === ");
 }
 
 void Game::turn(int &turnCount) {
   turnCount++;
   system("cls");
 
-  std::cout << "Turn " << turnCount << std::endl;
+  Printer::printLine("Turn " + turnCount);
 
   bool winner = false;
 
@@ -84,33 +84,33 @@ void Game::turn(int &turnCount) {
   Printer::printReserves("CPU", playerTwo.deck);
 
   while (!winner) {
-    std::cout << std::endl;
+    Printer::printLine();
 
     playerOne.flipCards();
     playerTwo.flipCards();
 
     Printer::printTroops("Your", playerOne.pile);
     Printer::printTroops(" CPU", playerTwo.pile);
-    std::cout << std::endl;
+    Printer::printLine();
 
     Card playerOneCard = playerOne.pile.drawCard(false);
     Card playerTwoCard = playerTwo.pile.drawCard(false);
 
-    std::cout << playerOneCard.toString() << " vs. " << playerTwoCard.toString() << std::endl;
-    std::cout << std::endl;
+    Printer::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
+    Printer::printLine();
 
     if (playerOneCard.value() > playerTwoCard.value()) {
       winner = true;
-      std::cout << "You won the battle" << std::endl;
+      Printer::printLine("You won the battle");
       turnWon(playerOne, playerTwo);
     }
     else if (playerTwoCard.value() > playerOneCard.value()) {
       winner = true;
-      std::cout << "You lost the battle" << std::endl;
+      Printer::printLine("You lost the battle");
       turnWon(playerTwo, playerOne);
     }
     else {
-      std::cout << "tie!" << std::endl;
+      Printer::printLine("tie!");
     }
 
     if (!AUTOMATE_WAR) {
@@ -118,13 +118,13 @@ void Game::turn(int &turnCount) {
     }
   }
 
-  std::cout << std::endl;
+  Printer::printLine();
 }
 
 void Game::turnWon(Player &winner, Player &loser) {
   for (int count = loser.pile.size(); count > 0; count--){
     Card card = loser.pile.drawCard();
-    std::cout << "  " << card.toString() << std::endl;
+    Printer::printLine("  " + card.toString());
     winner.deck.addCard(card);
   }
 

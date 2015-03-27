@@ -7,7 +7,7 @@
 #include "Deck.h"
 
 void Printer::printScore(int &won, int &lost) {
-  std::cout << std::endl;
+  Printer::printLine();
   std::cout << "Score:" << std::endl;
   std::cout << "Won:" << won << std::endl;
   std::cout << "Lost:" << lost << std::endl;
@@ -16,7 +16,7 @@ void Printer::printScore(int &won, int &lost) {
 void Printer::printReserves(std::string playerName, Deck &reserves) {
   std::cout << playerName << " reserves: " << reserves.size() << std::endl;
   std::cout << reserves.print();
-  std::cout << std::endl;
+  Printer::printLine();
 }
 
 void Printer::printTroops(std::string playerName, Deck &troops) {
@@ -29,8 +29,9 @@ bool Printer::playAgainPrompt() {
   std::string input;
 
   while (!validInput) {
-    std::cout << std::endl;
-    std::cout << "Play again? (y/n)" << std::endl;
+    Printer::printLine();
+    Printer::printLine("Play again? (y/n)");
+
     std::cin >> input;
 
     if (input == "y") {
@@ -42,9 +43,17 @@ bool Printer::playAgainPrompt() {
       validInput = true;
     }
     else {
-      std::cout << "Please enter 'y' or 'n'" << std::endl;
+      Printer::printLine("Please enter 'y' or 'n'");
     }
   }
 
   return returnValue;
+}
+
+void Printer::printLine() {
+  Printer::printLine("");
+}
+
+void Printer::printLine(std::string line) {
+  std::cout << line << std::endl;
 }
