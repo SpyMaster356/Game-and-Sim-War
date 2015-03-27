@@ -39,7 +39,6 @@ void Game::newRound() {
 }
 
 void Game::dealCards(Deck &fullDeck) {
-  std::cout << "dealing cards..." << std::endl;
   int nextDeck = 1;
 
   while (fullDeck.size() > 0) {
@@ -87,8 +86,8 @@ void Game::turn(int &turnCount) {
   while (!winner) {
     std::cout << std::endl;
 
-    flipCards(playerOne);
-    flipCards(playerTwo);
+    playerOne.flipCards();
+    playerTwo.flipCards();
 
     Printer::printTroops("Your", playerOne.pile);
     Printer::printTroops(" CPU", playerTwo.pile);
@@ -120,14 +119,6 @@ void Game::turn(int &turnCount) {
   }
 
   std::cout << std::endl;
-}
-
-void Game::flipCards(Player &player) {
-  for (int count = Game::CARDS_PER_TURN; count > 0; count--){
-    if (player.deck.size() > 0) {
-      player.pile.addCard(player.deck.drawCard(), false);
-    }
-  }
 }
 
 void Game::turnWon(Player &winner, Player &loser) {

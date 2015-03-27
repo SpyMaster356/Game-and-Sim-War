@@ -3,9 +3,12 @@
 
 #include "Deck.h"
 
-struct Player {
+class Player {
+public:
   Deck pile;
   Deck deck;
+
+  void flipCards();
 };
 
 #endif
