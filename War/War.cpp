@@ -8,6 +8,7 @@
 #include "Card.h"
 #include "Suit.h"
 #include "Deck.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -17,11 +18,6 @@ const bool AUTOMATE_WAR = true;
 
 
 void printCard(Card);
-
-struct Player {
-  Deck pile;
-  Deck deck;
-};
 
 class Printer {
   public:
