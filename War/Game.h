@@ -22,7 +22,7 @@ private:
   void newRound();
   void dealCards(Deck &fullDeck);
   void playRound();
-  void turn(int &turnCount);
+  void nextTurn(int &turnCount);
   void turnWon(Player &winner, Player &loser);
 };
 

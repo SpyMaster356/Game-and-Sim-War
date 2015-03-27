@@ -57,7 +57,7 @@ void Game::playRound() {
 
   int turnCount = 0;
   while (playerOne.deck.size() > 0 && playerTwo.deck.size() > 0) {
-    turn(turnCount);
+    nextTurn(turnCount);
   }
 
   if (playerOne.deck.size() == 0) {
@@ -70,7 +70,7 @@ void Game::playRound() {
   }
 }
 
-void Game::turn(int &turnCount) {
+void Game::nextTurn(int &turnCount) {
   turnCount++;
   bool winner = false;
 
