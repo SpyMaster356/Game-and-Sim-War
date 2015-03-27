@@ -6,6 +6,7 @@
 #include "Deck.h"
 #include "Display.h"
 #include "Game.h"
+#include "Outcome.h"
 
 void Game::start() {
   gameRunning = true;
@@ -72,46 +73,61 @@ void Game::playRound() {
 
 void Game::nextTurn(int &turnCount) {
   turnCount++;
-  bool winner = false;
+  Outcome battleOutcome;
 
   Display::clear();
   Display::turnStart(turnCount, playerOne, playerTwo);
   Display::anyKeyToContinue();
 
-  while (!winner) {
-    Display::printLine();
+  do {
+    battleOutcome = Game::performBattle();
+    
+    Display::anyKeyToContinue();
+    
+    if (battleOutcome == Outcome::TIE) {
+      Display::printLine("Tie!");
+    }
+  } while (battleOutcome == Outcome::TIE);
 
-    playerOne.flipCards();
-    playerTwo.flipCards();
-
-    Card playerOneCard = playerOne.pile.drawCard(false);
-    Card playerTwoCard = playerTwo.pile.drawCard(false);
-
-    Display::printTroops("Your", playerOne.pile);
-    Display::printTroops(" CPU", playerTwo.pile);
-    Display::printLine();
-
-    Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
-    Display::printLine();
-
-    if (playerOneCard.value() > playerTwoCard.value()) {
-      winner = true;
+  switch (battleOutcome) {
+    case Outcome::PLAYER_WON:
       Display::printLine("You won the battle");
       turnWon(playerOne, playerTwo);
-    }
-    else if (playerTwoCard.value() > playerOneCard.value()) {
-      winner = true;
+      break;
+    case Outcome::PLAYER_LOST:
       Display::printLine("You lost the battle");
       turnWon(playerTwo, playerOne);
-    }
-    else {
-      Display::printLine("tie!");
-    }
-
-    Display::anyKeyToContinue();
+      break;
   }
 
+  Display::anyKeyToContinue();
+}
+
+Outcome Game::performBattle() {
   Display::printLine();
+
+  playerOne.flipCards();
+  playerTwo.flipCards();
+
+  Card playerOneCard = playerOne.pile.drawCard(false);
+  Card playerTwoCard = playerTwo.pile.drawCard(false);
+
+  Display::printTroops("Your", playerOne.pile);
+  Display::printTroops(" CPU", playerTwo.pile);
+  Display::printLine();
+
+  Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
+  Display::printLine();
+
+  if (playerOneCard.value() > playerTwoCard.value()) {
+    return Outcome::PLAYER_WON;
+  }
+  else if (playerOneCard.value() < playerTwoCard.value()) {
+    return Outcome::PLAYER_LOST;
+  }
+  else {
+    return Outcome::TIE;
+  }
 }
 
 void Game::turnWon(Player &winner, Player &loser) {

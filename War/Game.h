@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "Deck.h"
+#include "Outcome.h"
 
 class Game {
 public:
@@ -23,6 +24,7 @@ private:
   void dealCards(Deck &fullDeck);
   void playRound();
   void nextTurn(int &turnCount);
+  Outcome performBattle();
   void turnWon(Player &winner, Player &loser);
 };
 
