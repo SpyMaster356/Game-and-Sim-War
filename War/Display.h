@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Deck.h"
+#include "Player.h"
 
 class Display {
 public:
@@ -16,6 +17,7 @@ public:
   static void playerWonWar();
   static void playerLostWar();
   static void clear();
+  static void turnStart(int &turnNumber, Player &playerOne, Player &playerTwo);
 
 private:
   static void warEnd(std::string message);

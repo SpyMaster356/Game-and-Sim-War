@@ -72,14 +72,10 @@ void Game::playRound() {
 
 void Game::turn(int &turnCount) {
   turnCount++;
-  Display::clear();
-
-  Display::printLine("Turn " + turnCount);
-
   bool winner = false;
 
-  Display::printReserves("Your", playerOne.deck);
-  Display::printReserves("CPU", playerTwo.deck);
+  Display::clear();
+  Display::turnStart(turnCount, playerOne, playerTwo);
 
   while (!winner) {
     Display::printLine();
@@ -111,7 +107,7 @@ void Game::turn(int &turnCount) {
       Display::printLine("tie!");
     }
 
-    if (!AUTOMATE_WAR) {
+    if (!Game::AUTOMATE_WAR) {
       system("pause");
     }
   }

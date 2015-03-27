@@ -74,3 +74,9 @@ void Display::warEnd(std::string message) {
 void Display::clear() {
   system("cls");
 }
+
+void Display::turnStart(int &turnNumber, Player &playerOne, Player &playerTwo) {
+  Display::printLine("Turn " + turnNumber);
+  Display::printReserves("Your", playerOne.deck);
+  Display::printReserves("CPU", playerTwo.deck);
+}
