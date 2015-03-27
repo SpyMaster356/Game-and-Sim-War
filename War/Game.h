@@ -25,7 +25,7 @@ private:
   void playRound();
   void nextTurn(int &turnCount);
   Outcome performBattle();
-  void turnWon(Player &winner, Player &loser);
+  void turnComplete(Outcome outcome);
 };
 
 #endif

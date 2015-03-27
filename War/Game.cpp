@@ -89,16 +89,7 @@ void Game::nextTurn(int &turnCount) {
     }
   } while (battleOutcome == Outcome::TIE);
 
-  switch (battleOutcome) {
-    case Outcome::PLAYER_WON:
-      Display::printLine("You won the battle");
-      turnWon(playerOne, playerTwo);
-      break;
-    case Outcome::PLAYER_LOST:
-      Display::printLine("You lost the battle");
-      turnWon(playerTwo, playerOne);
-      break;
-  }
+  turnComplete(battleOutcome);
 
   Display::anyKeyToContinue();
 }
@@ -130,7 +121,21 @@ Outcome Game::performBattle() {
   }
 }
 
-void Game::turnWon(Player &winner, Player &loser) {
+void Game::turnComplete(Outcome outcome) {
+  Player winner;
+  Player loser;
+
+  if (outcome == Outcome::PLAYER_WON) {
+    Display::printLine("You won the battle");
+    winner = playerOne;
+    loser = playerTwo;
+  }
+  else if (outcome == Outcome::PLAYER_LOST) {
+    Display::printLine("You lost the battle");
+    winner = playerTwo;
+    loser = playerOne;
+  }
+
   for (int count = loser.pile.size(); count > 0; count--){
     Card card = loser.pile.drawCard();
     Display::printLine("  " + card.toString());
