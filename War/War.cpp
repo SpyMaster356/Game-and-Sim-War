@@ -6,6 +6,9 @@
 #include <string>
 #include <time.h>
 
+#include "Card.h"
+#include "Suit.h"
+
 using namespace std;
 
 const int MAX_CARD_VALUE = 14; //Aces high
@@ -14,66 +17,6 @@ const int CARDS_PER_TURN = 3;
 const int NUM_OF_DECKS = 1;
 const bool AUTOMATE_WAR = false;
 
-enum Suit {
-  HEART, CLUB, DIAMOND, SPADE
-};
-
-enum Value {
-  JACK = 11, QUEEN, KING, ACE
-};
-
-class Card {
-  int _value;
-  Suit _suit;
-
-  public:
-    Card(int value, Suit suit) {
-      _value = value;
-      _suit = suit;
-    }
-
-    Suit suit() {
-      return _suit;
-    }
-
-    int value() {
-      return _value;
-    }
-
-    string suitName() {
-      switch (_suit) {
-        case HEART:
-          return "H";
-        case DIAMOND:
-          return "D";
-        case SPADE:
-          return "S";
-        case CLUB:
-          return "C"; 
-        default:
-          return "U";
-      }
-    }
-
-    string valueName() {
-      switch (_value) {
-        case ACE:
-          return "A";
-        case KING:
-          return "K";
-        case QUEEN:
-          return "Q";
-        case JACK:
-          return "J";
-        default:
-          return to_string(_value);
-      }
-    }
-
-    string toString() {
-      return "[" + valueName() + " " + suitName() + "]";
-    }
-};
 
 void printCard(Card);
 
@@ -87,11 +30,11 @@ class Deck {
 
     Card drawCard(bool removeFromDeck) {
       Card topCard = cards.back();
-      
+
       if (removeFromDeck) {
         cards.pop_back();
       }
-      
+
       return topCard;
     }
 
@@ -119,12 +62,12 @@ class Deck {
 
         Card card1 = cards[index1];
         Card card2 = cards[index2];
-        
+
         cards[index1] = card2;
         cards[index2] = card1;
       }
     }
-    
+
     int size() {
       return cards.size();
     }
@@ -147,10 +90,10 @@ class Deck {
     }
 
     static void buildFullDeck(Deck &fullDeck) {
-      buildSuit(fullDeck, HEART);
-      buildSuit(fullDeck, SPADE);
-      buildSuit(fullDeck, DIAMOND);
-      buildSuit(fullDeck, CLUB);
+      buildSuit(fullDeck, Suit::HEART);
+      buildSuit(fullDeck, Suit::SPADE);
+      buildSuit(fullDeck, Suit::DIAMOND);
+      buildSuit(fullDeck, Suit::CLUB);
     }
 
     static void buildSuit(Deck &fullDeck, Suit suit) {
@@ -293,7 +236,7 @@ class Game {
 
         flipCards(playerOne);
         flipCards(playerTwo);
-        
+
         Printer::printTroops("Your", playerOne.pile);
         Printer::printTroops(" CPU", playerTwo.pile);
         cout << endl;
