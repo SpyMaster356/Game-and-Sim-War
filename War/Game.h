@@ -8,7 +8,7 @@ class Game {
 public:
   static const int CARDS_PER_TURN = 3;
   static const int NUM_OF_DECKS = 1;
-  static const bool AUTOMATE_WAR = true;
+  static const bool AUTOMATE_WAR = false;
 
   void start();
 

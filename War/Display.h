@@ -18,6 +18,7 @@ public:
   static void playerLostWar();
   static void clear();
   static void turnStart(int &turnNumber, Player &playerOne, Player &playerTwo);
+  static void anyKeyToContinue();
 
 private:
   static void warEnd(std::string message);

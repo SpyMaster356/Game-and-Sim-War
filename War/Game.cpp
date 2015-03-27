@@ -76,6 +76,7 @@ void Game::turn(int &turnCount) {
 
   Display::clear();
   Display::turnStart(turnCount, playerOne, playerTwo);
+  Display::anyKeyToContinue();
 
   while (!winner) {
     Display::printLine();
@@ -83,12 +84,12 @@ void Game::turn(int &turnCount) {
     playerOne.flipCards();
     playerTwo.flipCards();
 
+    Card playerOneCard = playerOne.pile.drawCard(false);
+    Card playerTwoCard = playerTwo.pile.drawCard(false);
+
     Display::printTroops("Your", playerOne.pile);
     Display::printTroops(" CPU", playerTwo.pile);
     Display::printLine();
-
-    Card playerOneCard = playerOne.pile.drawCard(false);
-    Card playerTwoCard = playerTwo.pile.drawCard(false);
 
     Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
     Display::printLine();
@@ -107,9 +108,7 @@ void Game::turn(int &turnCount) {
       Display::printLine("tie!");
     }
 
-    if (!Game::AUTOMATE_WAR) {
-      system("pause");
-    }
+    Display::anyKeyToContinue();
   }
 
   Display::printLine();

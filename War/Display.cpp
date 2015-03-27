@@ -5,6 +5,7 @@
 
 #include "Display.h"
 #include "Deck.h"
+#include "Game.h"
 
 void Display::printScore(int &won, int &lost) {
   Display::printLine();
@@ -76,7 +77,13 @@ void Display::clear() {
 }
 
 void Display::turnStart(int &turnNumber, Player &playerOne, Player &playerTwo) {
-  Display::printLine("Turn " + turnNumber);
+  Display::printLine("Turn " + std::to_string(turnNumber));
   Display::printReserves("Your", playerOne.deck);
   Display::printReserves("CPU", playerTwo.deck);
+}
+
+void Display::anyKeyToContinue() {
+  if (!Game::AUTOMATE_WAR) {
+    system("pause");
+  }
 }
