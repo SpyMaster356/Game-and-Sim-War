@@ -4,7 +4,7 @@
 
 #include "Player.h"
 #include "Deck.h"
-#include "Printer.h"
+#include "Display.h"
 #include "Game.h"
 
 void Game::start() {
@@ -14,9 +14,9 @@ void Game::start() {
     newRound();
     playRound();
 
-    Printer::printScore(roundsWon, roundsLost);
-    bool playAgain = Printer::playAgainPrompt();
-    
+    Display::printScore(roundsWon, roundsLost);
+    bool playAgain = Display::playAgainPrompt();
+
     if (!playAgain) {
       gameRunning = false;
     }
@@ -53,7 +53,7 @@ void Game::dealCards(Deck &fullDeck) {
 }
 
 void Game::playRound() {
-  Printer::printLine();
+  Display::printLine();
 
   int turnCount = 0;
   while (playerOne.deck.size() > 0 && playerTwo.deck.size() > 0) {
@@ -62,55 +62,55 @@ void Game::playRound() {
 
   if (playerOne.deck.size() == 0) {
     roundsLost++;
-    Printer::printLine("You have lost the war.");
+    Display::printLine("You have lost the war.");
   }
   else if (playerTwo.deck.size() == 0) {
     roundsWon++;
-    Printer::printLine("You have won the war!");
+    Display::printLine("You have won the war!");
   }
 
-  Printer::printLine(" === GAME OVER === ");
+  Display::printLine(" === GAME OVER === ");
 }
 
 void Game::turn(int &turnCount) {
   turnCount++;
   system("cls");
 
-  Printer::printLine("Turn " + turnCount);
+  Display::printLine("Turn " + turnCount);
 
   bool winner = false;
 
-  Printer::printReserves("Your", playerOne.deck);
-  Printer::printReserves("CPU", playerTwo.deck);
+  Display::printReserves("Your", playerOne.deck);
+  Display::printReserves("CPU", playerTwo.deck);
 
   while (!winner) {
-    Printer::printLine();
+    Display::printLine();
 
     playerOne.flipCards();
     playerTwo.flipCards();
 
-    Printer::printTroops("Your", playerOne.pile);
-    Printer::printTroops(" CPU", playerTwo.pile);
-    Printer::printLine();
+    Display::printTroops("Your", playerOne.pile);
+    Display::printTroops(" CPU", playerTwo.pile);
+    Display::printLine();
 
     Card playerOneCard = playerOne.pile.drawCard(false);
     Card playerTwoCard = playerTwo.pile.drawCard(false);
 
-    Printer::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
-    Printer::printLine();
+    Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
+    Display::printLine();
 
     if (playerOneCard.value() > playerTwoCard.value()) {
       winner = true;
-      Printer::printLine("You won the battle");
+      Display::printLine("You won the battle");
       turnWon(playerOne, playerTwo);
     }
     else if (playerTwoCard.value() > playerOneCard.value()) {
       winner = true;
-      Printer::printLine("You lost the battle");
+      Display::printLine("You lost the battle");
       turnWon(playerTwo, playerOne);
     }
     else {
-      Printer::printLine("tie!");
+      Display::printLine("tie!");
     }
 
     if (!AUTOMATE_WAR) {
@@ -118,13 +118,13 @@ void Game::turn(int &turnCount) {
     }
   }
 
-  Printer::printLine();
+  Display::printLine();
 }
 
 void Game::turnWon(Player &winner, Player &loser) {
   for (int count = loser.pile.size(); count > 0; count--){
     Card card = loser.pile.drawCard();
-    Printer::printLine("  " + card.toString());
+    Display::printLine("  " + card.toString());
     winner.deck.addCard(card);
   }
 

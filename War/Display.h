@@ -1,11 +1,11 @@
-#ifndef __PRINTER_H__
-#define __PRINTER_H__
+#ifndef __DISPLAY_H__
+#define __DISPLAY_H__
 
 #include <string>
 
 #include "Deck.h"
 
-class Printer {
+class Display {
 public:
   static void printScore(int &won, int &lost);
   static void printReserves(std::string playerName, Deck &reserves);
