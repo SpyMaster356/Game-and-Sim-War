@@ -125,28 +125,31 @@ Outcome Game::performBattle() {
 }
 
 void Game::turnComplete(Outcome outcome) {
-  Player winner;
-  Player loser;
+  Player *winnerPtr;
+  Player *loserPtr;
 
   if (outcome == Outcome::PLAYER_WON) {
     Display::printLine("You won the battle");
-    winner = playerOne;
-    loser = playerTwo;
+    winnerPtr = &playerOne;
+    loserPtr = &playerTwo;
   }
   else if (outcome == Outcome::PLAYER_LOST) {
     Display::printLine("You lost the battle");
-    winner = playerTwo;
-    loser = playerOne;
+    winnerPtr = &playerTwo;
+    loserPtr = &playerOne;
+  }
+  else {
+    return;
   }
 
-  for (int count = loser.troops.size(); count > 0; count--){
-    Card card = loser.troops.drawCard();
+  for (int count = loserPtr->troops.size(); count > 0; count--){
+    Card card = loserPtr->troops.drawCard();
     Display::printLine("  " + card.toString());
-    winner.reserves.addCard(card);
+    winnerPtr->reserves.addCard(card);
   }
 
-  for (int count = winner.troops.size(); count > 0; count--){
-    Card card = winner.troops.drawCard();
-    winner.reserves.addCard(card);
+  for (int count = winnerPtr->troops.size(); count > 0; count--){
+    Card card = winnerPtr->troops.drawCard();
+    winnerPtr->reserves.addCard(card);
   }
 }
