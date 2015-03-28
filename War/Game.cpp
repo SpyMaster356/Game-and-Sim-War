@@ -113,10 +113,10 @@ Outcome Game::performBattle() {
   Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
   Display::printLine();
 
-  if (playerOneCard.value() > playerTwoCard.value()) {
+  if (playerOneCard > playerTwoCard) {
     return Outcome::PLAYER_WON;
   }
-  else if (playerOneCard.value() < playerTwoCard.value()) {
+  else if (playerOneCard < playerTwoCard) {
     return Outcome::PLAYER_LOST;
   }
   else {
