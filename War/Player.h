@@ -3,9 +3,12 @@
 
 #include "Deck.h"
 
-struct Player {
-  Deck pile;
-  Deck deck;
+class Player {
+public:
+  Deck reserves;
+  Deck troops;
+
+  void readyTroops();
 };
 
 #endif

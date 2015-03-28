@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
 #include <string>
-#include <iostream>
 
 #include "Player.h"
 #include "Deck.h"
-#include "Printer.h"
+#include "Display.h"
 #include "Game.h"
+#include "Outcome.h"
 
 void Game::start() {
   gameRunning = true;
@@ -15,27 +15,11 @@ void Game::start() {
     newRound();
     playRound();
 
-    Printer::printScore(roundsWon, roundsLost);
+    Display::printScore(roundsWon, roundsLost);
+    bool playAgain = Display::playAgainPrompt();
 
-    bool validInput = false;
-    std::string input;
-
-    while (!validInput) {
-      std::cout << std::endl;
-      std::cout << "Play again? (y/n)" << std::endl;
-      std::cin >> input;
-
-      if (input == "y") {
-        validInput = true;
-      }
-      else if (input == "n") {
-        validInput = true;
-        gameRunning = false;
-      }
-      else {
-        validInput = false;
-        std::cout << "Please enter 'y' or 'n'" << std::endl;
-      }
+    if (!playAgain) {
+      gameRunning = false;
     }
   }
 }
@@ -43,8 +27,8 @@ void Game::start() {
 void Game::newRound() {
   Deck fullDeck;
   //Burn the decks!! BURN THEM!
-  playerOne.deck.clear();
-  playerTwo.deck.clear();
+  playerOne.reserves.clear();
+  playerTwo.reserves.clear();
 
   for (int count = Game::NUM_OF_DECKS; count > 0; count--){
     Deck::buildFullDeck(fullDeck);
@@ -55,106 +39,117 @@ void Game::newRound() {
 }
 
 void Game::dealCards(Deck &fullDeck) {
-  std::cout << "dealing cards..." << std::endl;
   int nextDeck = 1;
 
   while (fullDeck.size() > 0) {
     if (nextDeck == 1) {
-      playerOne.deck.addCard(fullDeck.drawCard());
+      playerOne.reserves.addCard(fullDeck.drawCard());
       nextDeck = 2;
     }
     else {
-      playerTwo.deck.addCard(fullDeck.drawCard());
+      playerTwo.reserves.addCard(fullDeck.drawCard());
       nextDeck = 1;
     }
   }
 }
 
 void Game::playRound() {
-  std::cout << std::endl;
+  Display::printLine();
+
   int turnCount = 0;
-  while (playerOne.deck.size() > 0 && playerTwo.deck.size() > 0) {
-    turn(turnCount);
+  while (playerOne.reserves.size() > 0 && playerTwo.reserves.size() > 0) {
+    nextTurn(turnCount);
   }
 
-  if (playerOne.deck.size() == 0) {
+  if (playerOne.reserves.size() == 0) {
     roundsLost++;
-    std::cout << "You have lost the war." << std::endl;
+    Display::playerLostWar();
   }
-  else if (playerTwo.deck.size() == 0) {
+  else if (playerTwo.reserves.size() == 0) {
     roundsWon++;
-    std::cout << "You have won the war!" << std::endl;
+    Display::playerWonWar();
   }
-
-  std::cout << " === GAME OVER === " << std::endl;
 }
 
-void Game::turn(int &turnCount) {
+void Game::nextTurn(int &turnCount) {
   turnCount++;
-  system("cls");
+  Outcome battleOutcome;
 
-  std::cout << "Turn " << turnCount << std::endl;
+  Display::clear();
+  Display::printLine("Turn " + std::to_string(turnCount));
+  Display::printReserves("Your", playerOne.reserves);
+  Display::printReserves("CPU", playerTwo.reserves);
+  Display::anyKeyToContinue();
 
-  bool winner = false;
-
-  Printer::printReserves("Your", playerOne.deck);
-  Printer::printReserves("CPU", playerTwo.deck);
-
-  while (!winner) {
-    std::cout << std::endl;
-
-    flipCards(playerOne);
-    flipCards(playerTwo);
-
-    Printer::printTroops("Your", playerOne.pile);
-    Printer::printTroops(" CPU", playerTwo.pile);
-    std::cout << std::endl;
-
-    Card playerOneCard = playerOne.pile.drawCard(false);
-    Card playerTwoCard = playerTwo.pile.drawCard(false);
-
-    std::cout << playerOneCard.toString() << " vs. " << playerTwoCard.toString() << std::endl;
-    std::cout << std::endl;
-
-    if (playerOneCard.value() > playerTwoCard.value()) {
-      winner = true;
-      std::cout << "You won the battle" << std::endl;
-      turnWon(playerOne, playerTwo);
-    }
-    else if (playerTwoCard.value() > playerOneCard.value()) {
-      winner = true;
-      std::cout << "You lost the battle" << std::endl;
-      turnWon(playerTwo, playerOne);
-    }
-    else {
-      std::cout << "tie!" << std::endl;
+  do {
+    battleOutcome = Game::performBattle();
+    
+    Display::anyKeyToContinue();
+    
+    if (battleOutcome == Outcome::TIE) {
+      Display::printLine("Tie!");
     }
 
-    if (!AUTOMATE_WAR) {
-      system("pause");
-    }
-  }
+  } while (battleOutcome == Outcome::TIE);
 
-  std::cout << std::endl;
+  turnComplete(battleOutcome);
+
+  Display::anyKeyToContinue();
 }
 
-void Game::flipCards(Player &player) {
-  for (int count = Game::CARDS_PER_TURN; count > 0; count--){
-    if (player.deck.size() > 0) {
-      player.pile.addCard(player.deck.drawCard(), false);
-    }
+Outcome Game::performBattle() {
+  Display::printLine();
+
+  playerOne.readyTroops();
+  playerTwo.readyTroops();
+
+  Card playerOneCard = playerOne.troops.drawCard(false);
+  Card playerTwoCard = playerTwo.troops.drawCard(false);
+
+  Display::printTroops("Your", playerOne.troops);
+  Display::printTroops(" CPU", playerTwo.troops);
+  Display::printLine();
+
+  Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
+  Display::printLine();
+
+  if (playerOneCard.value() > playerTwoCard.value()) {
+    return Outcome::PLAYER_WON;
+  }
+  else if (playerOneCard.value() < playerTwoCard.value()) {
+    return Outcome::PLAYER_LOST;
+  }
+  else {
+    return Outcome::TIE;
   }
 }
 
-void Game::turnWon(Player &winner, Player &loser) {
-  for (int count = loser.pile.size(); count > 0; count--){
-    Card card = loser.pile.drawCard();
-    std::cout << "  " << card.toString() << std::endl;
-    winner.deck.addCard(card);
+void Game::turnComplete(Outcome outcome) {
+  Player *winnerPtr;
+  Player *loserPtr;
+
+  if (outcome == Outcome::PLAYER_WON) {
+    Display::printLine("You won the battle");
+    winnerPtr = &playerOne;
+    loserPtr = &playerTwo;
+  }
+  else if (outcome == Outcome::PLAYER_LOST) {
+    Display::printLine("You lost the battle");
+    winnerPtr = &playerTwo;
+    loserPtr = &playerOne;
+  }
+  else {
+    return;
   }
 
-  for (int count = winner.pile.size(); count > 0; count--){
-    Card card = winner.pile.drawCard();
-    winner.deck.addCard(card);
+  for (int count = loserPtr->troops.size(); count > 0; count--){
+    Card card = loserPtr->troops.drawCard();
+    Display::printLine("  " + card.toString());
+    winnerPtr->reserves.addCard(card);
+  }
+
+  for (int count = winnerPtr->troops.size(); count > 0; count--){
+    Card card = winnerPtr->troops.drawCard();
+    winnerPtr->reserves.addCard(card);
   }
 }
