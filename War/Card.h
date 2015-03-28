@@ -7,8 +7,8 @@
 
 class Card {
 private:
-  int _value;
-  Suit _suit;
+  int value;
+  Suit suit;
 
 public:
   static const int MAX_VALUE = 14;
@@ -16,10 +16,10 @@ public:
 
   Card(int value, Suit suit);
 
-  Suit suit();
-  int value();
-  std::string suitName();
-  std::string valueName();
+  Suit getSuit();
+  int  getValue();
+  std::string getSuitName();
+  std::string getValueName();
   std::string toString();
 };
 
