@@ -7,15 +7,15 @@
 
 class Game {
 public:
-  static const int TROOPS_PER_TURN = 3;
-  static const int NUM_OF_DECKS = 1;
-  static const bool AUTOMATE_WAR = false;
+  static const int TROOPS_PER_TURN;
+  static const int NUM_OF_DECKS;
+  static const bool AUTOMATE_WAR;
 
   void start();
 
 private:
-  int roundsWon = 0;
-  int roundsLost = 0;
+  int roundsWon;
+  int roundsLost;
   bool gameRunning;
   Player playerOne;
   Player playerTwo;

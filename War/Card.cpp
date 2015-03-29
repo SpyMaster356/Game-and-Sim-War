@@ -7,48 +7,67 @@
 #include "Value.h"
 
 Card::Card(int value, Suit suit) {
-  _value = value;
-  _suit = suit;
+  this->value = value;
+  this->suit = suit;
 };
 
-Suit Card::suit() {
-  return _suit;
+Suit Card::getSuit() {
+  return suit;
+}
+
+int Card::getValue() {
+  return value;
 };
 
-int Card::value() {
-  return _value;
-};
-
-std::string Card::suitName() {
-  switch (_suit) {
-    case Suit::HEART:
-      return "H";
-    case Suit::DIAMOND:
-      return "D";
-    case Suit::SPADE:
-      return "S";
-    case Suit::CLUB:
-      return "C";
-    default:
-      return "U";
+std::string Card::getSuitName() {
+  switch (this->suit) {
+  case Suit::HEART:
+    return "H";
+  case Suit::DIAMOND:
+    return "D";
+  case Suit::SPADE:
+    return "S";
+  case Suit::CLUB:
+    return "C";
+  default:
+    return "U";
   }
 };
 
-std::string Card::valueName() {
-  switch (_value) {
-    case (int) Value::ACE:
-      return "A";
-    case (int) Value::KING:
-      return "K";
-    case (int) Value::QUEEN:
-      return "Q";
-    case (int) Value::JACK:
-      return "J";
-    default:
-      return std::to_string(_value);
+std::string Card::getValueName() {
+  switch (this->value) {
+  case (int)Value::ACE:
+    return "A";
+  case (int)Value::KING:
+    return "K";
+  case (int)Value::QUEEN:
+    return "Q";
+  case (int)Value::JACK:
+    return "J";
+  default:
+    return std::to_string(this->value);
   }
 };
 
 std::string Card::toString() {
-  return "[" + valueName() + " " + suitName() + "]";
+  return "[" + getValueName() + " " + getSuitName() + "]";
+};
+
+bool Card::operator == (const Card &other) {
+  return this->value == other.value;
+};
+
+bool Card::operator >= (const Card &other) {
+  return this->value >= other.value;
+};
+
+bool Card::operator <= (const Card &other) {
+  return this->value <= other.value;
+};
+bool Card::operator > (const Card &other) {
+  return this->value > other.value;
+};
+
+bool Card::operator < (const Card &other) {
+  return this->value < other.value;
 };
