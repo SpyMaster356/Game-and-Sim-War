@@ -22,11 +22,11 @@ public:
   std::string getValueName();
   std::string toString();
 
-  bool operator == (Card other);
-  bool operator <  (Card other);
-  bool operator <= (Card other);
-  bool operator >  (Card other);
-  bool operator >= (Card other);
+  bool operator == (const Card &other);
+  bool operator <  (const Card &other);
+  bool operator <= (const Card &other);
+  bool operator >  (const Card &other);
+  bool operator >= (const Card &other);
 };
 
 #endif

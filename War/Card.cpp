@@ -53,21 +53,21 @@ std::string Card::toString() {
   return "[" + getValueName() + " " + getSuitName() + "]";
 };
 
-bool Card::operator == (Card other) {
-  return this->value == other.getValue();
+bool Card::operator == (const Card &other) {
+  return this->value == other.value;
 };
 
-bool Card::operator >= (Card other) {
-  return this->value >= other.getValue();
+bool Card::operator >= (const Card &other) {
+  return this->value >= other.value;
 };
 
-bool Card::operator <= (Card other) {
-  return this->value <= other.getValue();
+bool Card::operator <= (const Card &other) {
+  return this->value <= other.value;
 };
-bool Card::operator > (Card other) {
-  return this->value > other.getValue();
+bool Card::operator > (const Card &other) {
+  return this->value > other.value;
 };
 
-bool Card::operator < (Card other) {
-  return this->value < other.getValue();
+bool Card::operator < (const Card &other) {
+  return this->value < other.value;
 };
