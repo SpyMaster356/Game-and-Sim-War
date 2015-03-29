@@ -8,8 +8,14 @@
 #include "Game.h"
 #include "Outcome.h"
 
+const int Game::TROOPS_PER_TURN = 3;
+const int Game::NUM_OF_DECKS = 1;
+const bool Game::AUTOMATE_WAR = false;
+
 void Game::start() {
-  gameRunning = true;
+  this->gameRunning = true;
+  this->roundsWon = 0;
+  this->roundsLost = 0;
 
   while (gameRunning) {
     newRound();
@@ -30,7 +36,7 @@ void Game::newRound() {
   playerOne.reserves.clear();
   playerTwo.reserves.clear();
 
-  for (int count = Game::NUM_OF_DECKS; count > 0; count--){
+  for (int count = Game::NUM_OF_DECKS; count > 0; count--) {
     Deck::buildFullDeck(fullDeck);
   }
 
@@ -113,10 +119,10 @@ Outcome Game::performBattle() {
   Display::printLine(playerOneCard.toString() + " vs. " + playerTwoCard.toString());
   Display::printLine();
 
-  if (playerOneCard.value() > playerTwoCard.value()) {
+  if (playerOneCard > playerTwoCard) {
     return Outcome::PLAYER_WON;
   }
-  else if (playerOneCard.value() < playerTwoCard.value()) {
+  else if (playerOneCard < playerTwoCard) {
     return Outcome::PLAYER_LOST;
   }
   else {
