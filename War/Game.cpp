@@ -89,13 +89,12 @@ void Game::nextTurn(int &turnCount) {
 
   do {
     battleOutcome = Game::performBattle();
-    
+
     Display::anyKeyToContinue();
-    
+
     if (battleOutcome == Outcome::TIE) {
       Display::printLine("Tie!");
     }
-
   } while (battleOutcome == Outcome::TIE);
 
   turnComplete(battleOutcome);

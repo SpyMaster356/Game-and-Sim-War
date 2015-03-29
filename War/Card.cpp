@@ -21,31 +21,31 @@ int Card::getValue() {
 
 std::string Card::getSuitName() {
   switch (this->suit) {
-    case Suit::HEART:
-      return "H";
-    case Suit::DIAMOND:
-      return "D";
-    case Suit::SPADE:
-      return "S";
-    case Suit::CLUB:
-      return "C";
-    default:
-      return "U";
+  case Suit::HEART:
+    return "H";
+  case Suit::DIAMOND:
+    return "D";
+  case Suit::SPADE:
+    return "S";
+  case Suit::CLUB:
+    return "C";
+  default:
+    return "U";
   }
 };
 
 std::string Card::getValueName() {
   switch (this->value) {
-    case (int) Value::ACE:
-      return "A";
-    case (int) Value::KING:
-      return "K";
-    case (int) Value::QUEEN:
-      return "Q";
-    case (int) Value::JACK:
-      return "J";
-    default:
-      return std::to_string(this->value);
+  case (int)Value::ACE:
+    return "A";
+  case (int)Value::KING:
+    return "K";
+  case (int)Value::QUEEN:
+    return "Q";
+  case (int)Value::JACK:
+    return "J";
+  default:
+    return std::to_string(this->value);
   }
 };
 
