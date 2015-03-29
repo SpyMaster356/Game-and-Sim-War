@@ -35,7 +35,7 @@ void Deck::addCard(Card card, bool toBottom) {
 void Deck::shuffle() {
   int maxSize = cards.size() - 1;
 
-  srand(time(NULL));
+  srand((unsigned int) time(NULL));
 
   for (int index1 = 0; index1 <= maxSize; index1++) {
     int index2 = rand() % maxSize;
